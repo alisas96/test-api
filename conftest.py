@@ -3,11 +3,17 @@ from endpoints.create_meme_endpoint import CreateMeme
 from endpoints.authorize import Authorization
 from endpoints.update_meme_endpoint import UpdateMeme
 from endpoints.delete_meme_endpoint import DeleteMeme
+from endpoints.get_meme_endpoint import GetMeme
 
 
 @pytest.fixture()
 def create_meme_endpoint():
     return CreateMeme()
+
+
+@pytest.fixture()
+def get_meme_endpoint():
+    return GetMeme()
 
 
 @pytest.fixture()
@@ -23,7 +29,7 @@ def delete_meme_endpoint():
 @pytest.fixture(scope="session")
 def authorize_endpoint():
     auth = Authorization()
-    auth.authorize()
+    auth.authorize({"name": "alisa"})
     return auth
 
 
@@ -44,4 +50,4 @@ def meme_id(create_meme_endpoint, delete_meme_endpoint, headers):
     create_meme_endpoint.post_a_meme(body, headers)
     meme_id = create_meme_endpoint.meme_id
     yield meme_id
-    delete_meme_endpoint.delete_a_meme(meme_id, headers)
+    delete_meme_endpoint.delete_a_meme(headers, meme_id)

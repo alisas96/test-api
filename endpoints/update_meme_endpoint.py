@@ -7,4 +7,5 @@ class UpdateMeme(Endpoints):
         self.response = requests.put(
             f"{self.url}/meme/{meme_id}", json=body, headers=headers
         )
+        self.parse_json_if_ok()
         return self.response

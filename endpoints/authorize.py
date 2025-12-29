@@ -3,20 +3,24 @@ from endpoints.endpoint import Endpoints
 
 
 class Authorization(Endpoints):
-    def authorize(self):
-        self.response = requests.post(f"{self.url}/authorize", json=self.name)
-        self.response_json = self.response.json()
-        self.token = self.response.json()["token"]
+    def authorize(self, name):
+        self.response = requests.post(f"{self.url}/authorize", json=name)
+        if self.response.status_code == 200:
+            self.response_json = self.response.json()
+            self.token = self.response_json.get("token")
+        else:
+            self.response_json = None
+            self.token = None
         return self.token
 
     def token_is_valid(self):
-        if self.token == None:
+        if self.token is None:
             return False
         response = requests.get(f"{self.url}/authorize/{self.token}")
         return response.status_code == 200
 
-    def get_valid_token(self):
-        return self.token if self.token_is_valid() else self.authorize()
+    def get_valid_token(self, name=None):
+        return self.token if self.token_is_valid() else self.authorize(name)
 
     def check_token_key_in_response(self):
         assert "token" in self.response_json
