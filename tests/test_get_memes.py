@@ -1,17 +1,16 @@
 def test_get_all_memes(get_meme_endpoint, headers):
     get_meme_endpoint.get_all_memes(headers)
     get_meme_endpoint.check_status_code_is_200()
+    get_meme_endpoint.check_body_contains_memes()
 
 
 def test_get_one_meme(get_meme_endpoint, headers, meme_id):
     get_meme_endpoint.get_one_meme(headers, meme_id)
     get_meme_endpoint.check_status_code_is_200()
-    get_meme_endpoint.check_meme_id_in_body()
-
+    get_meme_endpoint.check_body_contains_one_meme()
 
 def test_get_one_meme_not_found(get_meme_endpoint, headers):
-    not_existing_id = 99999999999
-    get_meme_endpoint.get_one_meme(headers, not_existing_id)
+    get_meme_endpoint.get_one_meme(headers, get_meme_endpoint.not_existing_id)
     get_meme_endpoint.check_status_code_is_404()
 
 

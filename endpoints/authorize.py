@@ -14,13 +14,17 @@ class Authorization(Endpoints):
         return self.token
 
     def token_is_valid(self):
-        if self.token is None:
-            return False
+        assert self.token is not None
         response = requests.get(f"{self.url}/authorize/{self.token}")
-        return response.status_code == 200
+        assert response.status_code == 200
 
     def get_valid_token(self, name=None):
-        return self.token if self.token_is_valid() else self.authorize(name)
+        if self.token is None:
+            self.authorize(name)
+        else:
+            self.token_is_valid()
+        return self.token
+            
 
     def check_token_key_in_response(self):
         assert "token" in self.response_json

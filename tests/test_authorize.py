@@ -10,8 +10,7 @@ def test_authorize_valid_name(authorize_endpoint):
 
 
 def test_token_is_valid(authorize_endpoint):
-    authorize_endpoint.get_valid_token()
-    assert authorize_endpoint.token_is_valid()
+    authorize_endpoint.token_is_valid()
 
 
 INVALID_AUTHORIZATION_NAME = (

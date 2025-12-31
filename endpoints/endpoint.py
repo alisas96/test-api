@@ -1,5 +1,6 @@
 class Endpoints:
     url = "http://memesapi.course.qa-practice.com/"
+    not_existing_id = 99999999999
     unauthorized_headers = {"Content-Type": "application/json"}
     response = None
     token = None
@@ -29,9 +30,24 @@ class Endpoints:
     def check_info_value_is_valid(self, body):
         assert self.response.json()["info"] == body["info"]
 
-    def check_meme_id_in_body(self):
+    def check_body_contains_memes(self):
+        body = self.response.json()
+        memes = body.get("data")
+        assert isinstance(body, dict)
+        for meme in memes:
+            assert "id" in meme
+            assert "text" in meme
+            assert "url" in meme
+            assert "tags" in meme
+            assert "info" in meme
+
+    def check_body_contains_one_meme(self):
         body = self.response.json()
         assert "id" in body
+        assert "text" in body
+        assert "url" in body
+        assert "tags" in body
+        assert "info" in body
 
     def parse_json_if_ok(self):
         if self.response.status_code == 200:

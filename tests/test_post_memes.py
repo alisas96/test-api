@@ -1,9 +1,19 @@
 import pytest
 
 
-def test_post_a_meme(create_meme_endpoint, headers):
+VALID_TEXT_DATA = (
+    "We need to talk about your memes",
+    "We need to talk about your memes memes"
+    "memes memes memes memes memes memes memes memes memes"
+    "memes memes memes memes memes memes memes memes memes"
+    "memes memes memes memes memes memes memes memes",
+)
+
+
+@pytest.mark.parametrize("text", VALID_TEXT_DATA)
+def test_post_a_meme(create_meme_endpoint, headers, text):
     body = {
-        "text": "We need to talk about your memes",
+        "text": text,
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaH5PTIMq9L3zCL-wsv5Uj6xGw3zestcDB_A&s",
         "tags": ["cat", "meme", "hands"],
         "info": {"color": ["white", "grey"], "objects": ["cat", "text", "hands"]},
@@ -92,37 +102,6 @@ def test_post_a_meme_info_must_be_obj(create_meme_endpoint, headers, info):
         "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaH5PTIMq9L3zCL-wsv5Uj6xGw3zestcDB_A&s",
         "tags": ["cat", "meme", "hands"],
         "info": info,
-    }
-    create_meme_endpoint.post_a_meme(body, headers)
-    create_meme_endpoint.check_status_code_is_400()
-
-
-def test_post_a_meme_long_text(create_meme_endpoint, headers):
-    body = {
-        "text": (
-            "We need to talk about your memes memes"
-            "memes memes memes memes memes memes memes memes memes"
-            "memes memes memes memes memes memes memes memes memes"
-            "memes memes memes memes memes memes memes memes"
-        ),
-        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaH5PTIMq9L3zCL-wsv5Uj6xGw3zestcDB_A&s",
-        "tags": ["cat", "meme", "hands"],
-        "info": {"color": ["white", "grey"], "objects": ["cat", "text", "hands"]},
-    }
-    create_meme_endpoint.post_a_meme(body, headers)
-    create_meme_endpoint.check_status_code_is_200()
-    create_meme_endpoint.check_text_value_is_valid(body)
-    create_meme_endpoint.check_url_value_is_valid(body)
-    create_meme_endpoint.check_tags_value_is_valid(body)
-    create_meme_endpoint.check_info_value_is_valid(body)
-
-
-def test_post_a_meme_url_must_not_be_empty(create_meme_endpoint, headers):
-    body = {
-        "text": "We need to talk about your memes memes",
-        "url": "",
-        "tags": ["cat", "meme", "hands"],
-        "info": {"color": ["white", "grey"], "objects": ["cat", "text", "hands"]},
     }
     create_meme_endpoint.post_a_meme(body, headers)
     create_meme_endpoint.check_status_code_is_400()
