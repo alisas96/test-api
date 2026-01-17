@@ -1,0 +1,21 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+# Игнорируем виртуальное окружение
+venv/
+
+# Игнорируем кэш Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# Настройки IDE
+.vscode/
+.idea/
+
+# Библиотеки, если устанавливаются через pip
+*.egg-info/
+dist/
+build/
