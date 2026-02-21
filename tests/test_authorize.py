@@ -17,7 +17,7 @@ def test_token_is_valid(authorize_endpoint):
 
 INVALID_AUTHORIZATION_NAME = (
     {"name": 1234},
-    # {"name": ""},
+    {"name": ""},
     {"name": None},
     {"name": {"color": ["white", "grey"], "objects": ["cat", "text", "hands"]}},
     {"name": ["alisa"]},
