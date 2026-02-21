@@ -1,6 +1,17 @@
 name: Python tests
 
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: choose tests set
+        required: true
+        type: choice
+        options:
+          - smoke
+          - regression
+          - extended
+          - all
 
 jobs:
   run-tests:
