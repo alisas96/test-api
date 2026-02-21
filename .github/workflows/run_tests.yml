@@ -1,1 +1,19 @@
+name: Python tests
 
+on: [push]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    name: Run tests
+    steps:
+      - name: Checkout tests
+        uses: actions/checkout@v6
+      - name: Set up Python environment
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13.5'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest
