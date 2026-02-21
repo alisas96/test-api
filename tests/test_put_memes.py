@@ -10,6 +10,7 @@ VALID_TEXT_DATA = (
 )
 
 
+@pytest.mark.smoke
 @pytest.mark.parametrize("text", VALID_TEXT_DATA)
 def test_put_a_meme(update_meme_endpoint, headers, meme_id, text):
     body = {
@@ -27,6 +28,7 @@ def test_put_a_meme(update_meme_endpoint, headers, meme_id, text):
     update_meme_endpoint.check_info_value_is_valid(body)
 
 
+@pytest.mark.regression
 def test_put_a_meme_must_not_be_unauthorized(update_meme_endpoint, meme_id):
     body = {
         "id": meme_id,
@@ -57,6 +59,7 @@ INVALID_BODY = (
 )
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("body", INVALID_BODY)
 def test_put_a_meme_without_some_key(update_meme_endpoint, body, headers, meme_id):
     if "id" in body:
@@ -98,6 +101,7 @@ INVALID_INFO_DATA = (
 )
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("id", INVALID_ID_DATA)
 def test_id_must_exist_and_be_positive_num(update_meme_endpoint, headers, meme_id, id):
     body = {
@@ -111,6 +115,7 @@ def test_id_must_exist_and_be_positive_num(update_meme_endpoint, headers, meme_i
     update_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("text", INVALID_TEXT_URL_DATA)
 def test_put_a_meme_text_must_be_str(update_meme_endpoint, headers, text, meme_id):
     body = {
@@ -124,6 +129,7 @@ def test_put_a_meme_text_must_be_str(update_meme_endpoint, headers, text, meme_i
     update_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("url", INVALID_TEXT_URL_DATA)
 def test_put_a_meme_url_must_be_str(update_meme_endpoint, headers, url, meme_id):
     body = {
@@ -137,6 +143,7 @@ def test_put_a_meme_url_must_be_str(update_meme_endpoint, headers, url, meme_id)
     update_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("tags", INVALID_TAGS_DATA)
 def test_put_a_meme_tags_must_be_array(update_meme_endpoint, headers, tags, meme_id):
     body = {
@@ -150,6 +157,7 @@ def test_put_a_meme_tags_must_be_array(update_meme_endpoint, headers, tags, meme
     update_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("info", INVALID_INFO_DATA)
 def test_put_a_meme_info_must_be_obj(update_meme_endpoint, headers, info, meme_id):
     body = {
@@ -163,6 +171,7 @@ def test_put_a_meme_info_must_be_obj(update_meme_endpoint, headers, info, meme_i
     update_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 def test_put_a_meme_without_info(update_meme_endpoint, headers, meme_id):
     body = {
         "id": meme_id,

@@ -10,6 +10,7 @@ VALID_TEXT_DATA = (
 )
 
 
+@pytest.mark.smoke
 @pytest.mark.parametrize("text", VALID_TEXT_DATA)
 def test_post_a_meme(create_meme_endpoint, headers, text):
     body = {
@@ -26,6 +27,7 @@ def test_post_a_meme(create_meme_endpoint, headers, text):
     create_meme_endpoint.check_info_value_is_valid(body)
 
 
+@pytest.mark.regression
 def test_post_a_meme_must_not_be_unauthorized(create_meme_endpoint):
     body = {
         "text": "We need to talk about your memes memes",
@@ -59,6 +61,7 @@ INVALID_INFO_DATA = (
 )
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("text", INVALID_TEXT_URL_DATA)
 def test_post_a_meme_text_must_be_str(create_meme_endpoint, headers, text):
     body = {
@@ -71,6 +74,7 @@ def test_post_a_meme_text_must_be_str(create_meme_endpoint, headers, text):
     create_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("url", INVALID_TEXT_URL_DATA)
 def test_post_a_meme_url_must_be_str(create_meme_endpoint, headers, url):
     body = {
@@ -83,6 +87,7 @@ def test_post_a_meme_url_must_be_str(create_meme_endpoint, headers, url):
     create_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("tags", INVALID_TAGS_DATA)
 def test_post_a_meme_tags_must_be_array(create_meme_endpoint, headers, tags):
     body = {
@@ -95,6 +100,7 @@ def test_post_a_meme_tags_must_be_array(create_meme_endpoint, headers, tags):
     create_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize("info", INVALID_INFO_DATA)
 def test_post_a_meme_info_must_be_obj(create_meme_endpoint, headers, info):
     body = {
@@ -107,6 +113,7 @@ def test_post_a_meme_info_must_be_obj(create_meme_endpoint, headers, info):
     create_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.extended
 def test_post_a_meme_without_info(create_meme_endpoint, headers):
     body = {
         "text": "We need to talk about your memes memes",
